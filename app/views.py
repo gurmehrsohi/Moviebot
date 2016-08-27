@@ -53,7 +53,7 @@ def gettrailer(string):
 
 
 
-PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAOyaVitUv3ztYDrfOaXjmHHOM6vb4I5hGaWP7YXSVPp40LfagelAplQjK6REJ0nTDx4qjcaViVIuImtzaPLOZBBghYZAENRDZArWemjwGygoAGzM3lHITvR2du98UpwWxV2vX3w0BUsZBWBmJoK09SnCREOjqQZDZD'
+PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAK2hMzffZA67Urv4AUAPJxWhECQI9fUexZBTIg5ximqIxro3Sb2vsZCY0vmdRYLRZBcpyGYZA7497QZAAP2MA9wgbqTfyvZAXgfrdq25sx8ZBroWuAnpdd7P6gVunopO8SSYjE0ZBfZA9AuZCAlAEfGJIttS0KYbyEIYgZDZD'
 
 num="123456789"
 def new_movie(fbid,recevied_message):
@@ -68,7 +68,7 @@ def new_movie(fbid,recevied_message):
         "attachment":{
             "type":"image",
                 "payload":{
-                    "url":name
+                    "url":name,
                         }
                         }
                 }
