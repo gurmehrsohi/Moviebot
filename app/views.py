@@ -71,7 +71,7 @@ def new_movie(fbid,recevied_message):
     guess="Guess the rating out of 10"
     #response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
     #status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-    response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":trailer}})
+    response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":"trailer"}})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
