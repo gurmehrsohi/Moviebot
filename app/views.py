@@ -59,18 +59,18 @@ num="123456789"
 def new_movie(fbid,recevied_message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message)
-    trailer=gettrailer(recevied_message)
-    message_object = {
+    #trailer=gettrailer(recevied_message)
+    '''message_object = {
         "attachment":{
             "type":"image",
                 "payload":{
                     "url":name,
                         }
                         }
-                }
+                }'''
     guess="Guess the rating out of 10"
-    response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+    #response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+    #status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":guess}})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
@@ -113,7 +113,7 @@ class findmovie(generic.View):
                 if 'message' in message:
                     pprint(message)
                     try:
-                        post_facebook_message(message['sender']['id'],message['message']['text'])
+                        new_movie(message['sender']['id'],message['message']['text'])
                     except:
                         return HttpResponse("sorry")
         return HttpResponse()
