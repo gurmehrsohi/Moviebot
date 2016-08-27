@@ -38,7 +38,10 @@ def getmoviedetails(string):
     return url_poster
 
 def gettrailer(string):
-    del list_item[0]
+    try:
+        del list_item[0]
+    except:
+        pprint('s')
     r=requests.get("https://www.rottentomatoes.com/search/?search="+string)
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
