@@ -13,6 +13,7 @@ import unicodedata
 from unidecode import unidecode
 from bs4 import BeautifulSoup
 mainurl="http://www.imdb.com"
+mainurl_rotten="http://www.rottentomatoes.com"
 list_item=[]
 
 def getmoviedetails(string):
@@ -42,13 +43,13 @@ def gettrailer(string):
     all_movies1=soup.find('section',{'id':'SummaryResults'})
     movie=all_movies1.find('li',{'class':'clearfix'})
     link=movie.find('a',{'class':'articleLink'}).get('href')
-    act_link=unicodedata(link)
+    act_link=unidecode(link)
     rotten_url=mainurl_rotten+act_link
     r1=requests.get(rotten_url)
     soup =BeautifulSoup(r1.text,"html.parser")
     video=soup.find('div',{'class':'movie'})
     video_link_ran=video.find('a').get('data-mp4-url')
-    video_link=unicodedata(video_link_ran)
+    video_link=unidecode(video_link_ran)
     return video_link
 
 
@@ -71,7 +72,7 @@ def new_movie(fbid,recevied_message):
     guess="Guess the rating out of 10"
     #response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
     #status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-    response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":"trailer"}})
+    response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":trailer}})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
