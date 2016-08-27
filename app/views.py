@@ -57,10 +57,6 @@ PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAK2hMzffZA67Urv4AUAPJxWhECQI9fUexZBTIg5ximqIxro
 
 num="123456789"
 def new_movie(fbid,recevied_message):
-    try:
-        del list_item[0]
-    except:
-        pprint('f')
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message)
     trailer=gettrailer(recevied_message)
