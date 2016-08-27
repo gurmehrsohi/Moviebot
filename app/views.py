@@ -38,6 +38,7 @@ def getmoviedetails(string):
     return url_poster
 
 def gettrailer(string):
+    del list_item[0]
     r=requests.get("https://www.rottentomatoes.com/search/?search="+string)
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
@@ -72,7 +73,7 @@ def new_movie(fbid,recevied_message):
     guess="Guess the rating out of 10"
     response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-    response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":trailer}})
+    response_message2 = json.dumps({"recipient":{"id":fbid},"message":{"text":list_item[0]}})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
