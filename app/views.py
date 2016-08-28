@@ -83,7 +83,9 @@ def new_movie(fbid,recevied_message):
                     "template_type":"generic",
                     "elements":[
                         {
+                            "title":"Movie name",
                             "image_url":name,
+                            "subtitle":"subtitle",
                             "buttons":[
                                 {
                                     "type":"postback",
