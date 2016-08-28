@@ -127,13 +127,25 @@ def render_postback(fbid,payload):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     if payload == 'RATING':
         text=Rating_movies[fbid]
+        try:
+            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":text}})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+        except:
+            pprint('error')
     if payload == 'TRAILER':
-        text=dict_trailer[fbid]
-    try:
-        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":text}})
-        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-    except:
-        pprint('error')
+        message_object = {
+            "attachment":{
+                "type":"video",
+                    "payload":{
+                        "url":dict_trailer[fbid]
+                            }
+                        }
+                }
+        try:
+            response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+        except:
+            pprint('error')
 '''def post_facebook_message(fbid,recevied_message):
     if(recevied_message[0] in num):
         post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
