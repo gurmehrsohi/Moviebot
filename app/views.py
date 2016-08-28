@@ -93,7 +93,7 @@ def new_movie(fbid,recevied_message):
                                 {
                                     "type":"postback",
                                     "title":"Rating",
-                                    "payload":Rating_movies[fbid],
+                                    "payload":"RATING",
                                 }
                             ]
                         }
@@ -118,6 +118,15 @@ def new_movie(fbid,recevied_message):
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
+def render_postback(fbid,payload):
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
+    if payload == 'RATING':
+        text=Rating_movies[fbid]
+    try:
+        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":text}})
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+    except:
+        pprint('error')
 '''def post_facebook_message(fbid,recevied_message):
     if(recevied_message[0] in num):
         post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
@@ -157,7 +166,12 @@ class findmovie(generic.View):
                     pprint(message)
                     try:
                         new_movie(message['sender']['id'],message['message']['text'])
-                        break
+                    except:
+                        return HttpResponse("sorry")
+                if 'postback' in message:
+                    pprint(message)
+                    try:
+                        render_postback(message['sender']['id'],message['postback']['payload'])
                     except:
                         return HttpResponse("sorry")
             break
