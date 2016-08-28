@@ -108,7 +108,7 @@ def new_movie(fbid,recevied_message):
                             }
                     }
         response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)'''
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
