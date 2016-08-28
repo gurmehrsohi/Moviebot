@@ -88,7 +88,7 @@ def new_movie(fbid,recevied_message):
                                 {
                                     "type":"postback",
                                     "title":"Rating",
-                                    "payload":Rating_movies[user_name]
+                                    "payload":Rating_movies[user_details['first_name']]
                                 }
                             ]
                         }
@@ -97,7 +97,7 @@ def new_movie(fbid,recevied_message):
             }
         }
     if recevied_message == "Rating":
-        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":Rating_movies[user_name]}})
+        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":Rating_movies[user_details['first_name']]}})
         status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
     if recevied_message == "Trailer":
         message_object = {
