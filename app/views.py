@@ -73,7 +73,7 @@ def new_movie(fbid,recevied_message):
 
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message)
-    #trailer=gettrailer(recevied_message)
+    trailer=gettrailer(recevied_message)
     #dict_trailer[user_details['first_name']] = trailer;
 
     message_object2 = {
@@ -89,7 +89,7 @@ def new_movie(fbid,recevied_message):
                             "buttons":[
                                 {
                                     "type":"postback",
-                                    "title":"Start Chatting",
+                                    "title":"Trailer",
                                     "payload":"USER_DEFINED_PAYLOAD"
                                 }
                             ]
@@ -98,12 +98,12 @@ def new_movie(fbid,recevied_message):
                 }
             }
         }
-    '''if recevied_message == "trailer":
+    if recevied_message == "trailer":
         message_object = {
             "attachment":{
                 "type":"video",
                     "payload":{
-                        "url":dict_trailer[user_details['first_name']]
+                        "url":trailer
                             }
                             }
                     }
