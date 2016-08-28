@@ -16,14 +16,18 @@ mainurl="http://www.imdb.com"
 mainurl_rotten="https://www.rottentomatoes.com"
 Rating_movies={}
 movie_summary={}
-
+movies_name={}
 def getmoviedetails(string,user_name):
     r=requests.get("http://www.imdb.com/find?q="+string)
     soup =BeautifulSoup(r.text,"html.parser")
     section=soup.find('div',{'class':'findSection'})
     big_list=section.find('table',{'class':'findList'})
     list=big_list.find_all('tr')
+    name_movie_uni=list[0].text
+    name_movie=unidecode(name_movie_uni)
+    movies_name[user_name]=name_movie
     cururl=mainurl+list[0].find('a').get('href')
+    
     r1=requests.get(cururl)
     soup =BeautifulSoup(r1.text,"html.parser")
     Summary1 = soup.find('div',{'class':'summary_text'})
@@ -82,7 +86,7 @@ def new_movie(fbid,recevied_message):
                     "template_type":"generic",
                     "elements":[
                         {
-                            "title":"Movie name",
+                            "title":movies_name[fbid],
                             "image_url":name,
                             "subtitle":movie_summary[fbid],
                             "buttons":[
