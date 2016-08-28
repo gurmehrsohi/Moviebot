@@ -76,8 +76,8 @@ def new_movie(fbid,recevied_message):
     user_details = requests.get(user_details_url,user_details_params).json()
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message,fbid)
-    #trailer=gettrailer(recevied_message)
-    #dict_trailer[user_details['first_name']] = trailer;
+    trailer=gettrailer(recevied_message)
+    dict_trailer[fbid]=trailer
 
     message_object2 = {
         "attachment":{
@@ -94,6 +94,11 @@ def new_movie(fbid,recevied_message):
                                     "type":"postback",
                                     "title":"Rating",
                                     "payload":"RATING",
+                                },
+                                {
+                                    "type":"postback",
+                                    "title":"Trailer",
+                                    "payload":"TRAILER",
                                 }
                             ]
                         }
@@ -122,6 +127,8 @@ def render_postback(fbid,payload):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     if payload == 'RATING':
         text=Rating_movies[fbid]
+    if payload == 'TRAILER':
+        text=dict_trailer[fbid]
     try:
         response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":text}})
         status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
