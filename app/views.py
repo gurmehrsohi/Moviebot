@@ -15,11 +15,9 @@ from bs4 import BeautifulSoup
 mainurl="http://www.imdb.com"
 mainurl_rotten="https://www.rottentomatoes.com"
 Rating_movies={}
-list_item=[]
+
 
 def getmoviedetails(string,user_name):
-    if len(list_item) == 1:
-        del list_item[0]
     r=requests.get("http://www.imdb.com/find?q="+string)
     soup =BeautifulSoup(r.text,"html.parser")
     section=soup.find('div',{'class':'findSection'})
@@ -90,7 +88,7 @@ def new_movie(fbid,recevied_message):
                                 {
                                     "type":"postback",
                                     "title":"Rating",
-                                    "payload":"USER_DEFINED_PAYLOAD"
+                                    "payload":Rating_movies[user_name]
                                 }
                             ]
                         }
