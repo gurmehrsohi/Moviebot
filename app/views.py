@@ -101,7 +101,7 @@ def new_movie(fbid,recevied_message):
     if recevied_message == "Rating":
         response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":Rating_movies[user_name]}})
         status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-   ''' if recevied_message == "Trailer":
+    if recevied_message == "Trailer":
         message_object = {
             "attachment":{
                 "type":"video",
@@ -111,7 +111,8 @@ def new_movie(fbid,recevied_message):
                             }
                     }
         response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)'''
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+    
         
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
