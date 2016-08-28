@@ -76,9 +76,11 @@ def new_movie(fbid,recevied_message):
     user_details = requests.get(user_details_url,user_details_params).json()
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message,fbid)
-    trailer=gettrailer(recevied_message)
-    dict_trailer[fbid]=trailer
-
+    try:
+        trailer=gettrailer(recevied_message)
+        dict_trailer[fbid]=trailer
+    except:
+        pprint('no trailer')
     message_object2 = {
         "attachment":{
             "type":"template",
@@ -133,14 +135,17 @@ def render_postback(fbid,payload):
         except:
             pprint('error')
     if payload == 'TRAILER':
-        message_object = {
-            "attachment":{
-                "type":"video",
-                    "payload":{
-                        "url":dict_trailer[fbid]
+        try:
+            message_object = {
+                "attachment":{
+                    "type":"video",
+                        "payload":{
+                            "url":dict_trailer[fbid]
+                                }
                             }
-                        }
-                }
+                    }
+        except:
+            pprint('no trailer')
         try:
             response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
