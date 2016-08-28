@@ -63,7 +63,7 @@ num="123456789"
 def new_movie(fbid,recevied_message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message)
-    '''trailer=gettrailer(recevied_message)
+    trailer=gettrailer(recevied_message)
     message_object = {
         "attachment":{
             "type":"video",
@@ -71,7 +71,7 @@ def new_movie(fbid,recevied_message):
                     "url":trailer
                         }
                         }
-                }'''
+                }
     message_object2 = {
         "attachment":{
             "type":"image",
@@ -79,13 +79,13 @@ def new_movie(fbid,recevied_message):
                     "url":name
                         }
                         }
-            }
+                }
 
-#response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-#status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+    response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         
-    response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
-    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
+        #response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
+        #status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
 '''def post_facebook_message(fbid,recevied_message):
