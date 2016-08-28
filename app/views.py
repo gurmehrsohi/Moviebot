@@ -65,10 +65,6 @@ def new_movie(fbid,recevied_message):
     user_details_url= "https://graph.facebook.com/v2.6/%s"%fbid
     user_details_params = {'fields':'first_name,last_name,profile_pic','access_token':PAGE_ACCESS_TOKEN}
     user_details = requests.get(user_details_url,user_details_params).json()
-
-
-
-
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message,fbid)
     #trailer=gettrailer(recevied_message)
@@ -88,7 +84,7 @@ def new_movie(fbid,recevied_message):
                                 {
                                     "type":"postback",
                                     "title":"Rating",
-                                    "payload":repr(Rating_movies[fbid])
+                                    "payload":Rating_movies[fbid],
                                 }
                             ]
                         }
