@@ -14,9 +14,9 @@ from unidecode import unidecode
 from bs4 import BeautifulSoup
 mainurl="http://www.imdb.com"
 mainurl_rotten="https://www.rottentomatoes.com"
-list_item=[]
+Rating_movies={}
 
-def getmoviedetails(string):
+def getmoviedetails(string,user_name):
     if len(list_item) == 1:
         del list_item[0]
     r=requests.get("http://www.imdb.com/find?q="+string)
@@ -30,7 +30,7 @@ def getmoviedetails(string):
     poster=soup.find('div',{'class':'poster'})
     rate=soup.find('span',{'itemprop':'ratingValue'})
     rating=unidecode(rate.text)
-    list_item.append(rating)
+    Rating_movies[user_name]=rating
     poster_image=poster.find('img').get('src')
     url_poster=repr(poster_image)
     img=url_poster.replace("'","")
@@ -72,8 +72,8 @@ def new_movie(fbid,recevied_message):
 '''
 
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-    name=getmoviedetails(recevied_message)
-    trailer=gettrailer(recevied_message)
+    name=getmoviedetails(recevied_message,user_details['first_name'])
+    #trailer=gettrailer(recevied_message)
     #dict_trailer[user_details['first_name']] = trailer;
 
     message_object2 = {
@@ -89,7 +89,7 @@ def new_movie(fbid,recevied_message):
                             "buttons":[
                                 {
                                     "type":"postback",
-                                    "title":"Trailer",
+                                    "title":"Rating",
                                     "payload":"USER_DEFINED_PAYLOAD"
                                 }
                             ]
@@ -98,7 +98,10 @@ def new_movie(fbid,recevied_message):
                 }
             }
         }
-    if recevied_message == "Trailer":
+    if recevied_message == "Rating":
+        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":Rating_movies[user_name]}})
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+   ''' if recevied_message == "Trailer":
         message_object = {
             "attachment":{
                 "type":"video",
@@ -108,7 +111,7 @@ def new_movie(fbid,recevied_message):
                             }
                     }
         response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)'''
         
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
