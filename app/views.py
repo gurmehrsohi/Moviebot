@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 mainurl="http://www.imdb.com"
 mainurl_rotten="https://www.rottentomatoes.com"
 Rating_movies={}
-
+movie_summary={}
 
 def getmoviedetails(string,user_name):
     r=requests.get("http://www.imdb.com/find?q="+string)
@@ -26,6 +26,11 @@ def getmoviedetails(string,user_name):
     cururl=mainurl+list[0].find('a').get('href')
     r1=requests.get(cururl)
     soup =BeautifulSoup(r1.text,"html.parser")
+    Summary1 = soup.find('div',{'class':'summary_text'})
+    Summary2=Summary1.text
+    Summary3=Summary2.replace("\n","")
+    Summary=Summary3.replace("          ","")
+    movie_summary[user_name]=Summary
     poster=soup.find('div',{'class':'poster'})
     rate=soup.find('span',{'itemprop':'ratingValue'})
     rating=unidecode(rate.text)
@@ -79,7 +84,7 @@ def new_movie(fbid,recevied_message):
                         {
                             "title":"Movie name",
                             "image_url":name,
-                            "subtitle":"subtitle",
+                            "subtitle":movie_summary[fbid],
                             "buttons":[
                                 {
                                     "type":"postback",
