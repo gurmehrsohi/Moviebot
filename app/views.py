@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 mainurl="http://www.imdb.com"
 mainurl_rotten="https://www.rottentomatoes.com"
 Rating_movies={}
+list_item=[]
 
 def getmoviedetails(string,user_name):
     if len(list_item) == 1:
