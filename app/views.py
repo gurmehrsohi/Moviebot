@@ -70,7 +70,7 @@ def new_movie(fbid,recevied_message):
 
 
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-    name=getmoviedetails(recevied_message,user_details['first_name'])
+    name=getmoviedetails(recevied_message,fbid)
     #trailer=gettrailer(recevied_message)
     #dict_trailer[user_details['first_name']] = trailer;
 
@@ -88,7 +88,7 @@ def new_movie(fbid,recevied_message):
                                 {
                                     "type":"postback",
                                     "title":"Rating",
-                                    "payload":Rating_movies[user_details['first_name']]
+                                    "payload":Rating_movies[fbid]
                                 }
                             ]
                         }
@@ -96,9 +96,6 @@ def new_movie(fbid,recevied_message):
                 }
             }
         }
-    if recevied_message == "Rating":
-        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":Rating_movies[user_details['first_name']]}})
-        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
     if recevied_message == "Trailer":
         message_object = {
             "attachment":{
