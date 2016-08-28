@@ -88,7 +88,7 @@ def new_movie(fbid,recevied_message):
                                 {
                                     "type":"postback",
                                     "title":"Rating",
-                                    "payload":Rating_movies[fbid]
+                                    "payload":repr(Rating_movies[fbid])
                                 }
                             ]
                         }
