@@ -60,32 +60,56 @@ def gettrailer(string):
 PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0nEumBqgDnACTKDsogyqGsybqCW0R9zAaWytWabYAMc0QVNeVyJZBTX16217N4f8Yhin0tSydtBRR4I8U8TPG1P38ZAoDCR5cy1LQq8tH82bZCLwZDZD'
 
 num="123456789"
+dict_trailer={}
 def new_movie(fbid,recevied_message):
+    '''try:
+        user_details_url= "https://graph.facebook.com/v2.6/%s"%fbid
+        user_details_params = {'fields':'first_name,last_name,profile_pic','access_token':PAGE_ACCESS_TOKEN}
+        user_details = requests.get(user_details_url,user_details_params).json()
+    except:
+        pprint('s')
+
+'''
+
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message)
-    trailer=gettrailer(recevied_message)
-    message_object = {
-        "attachment":{
-            "type":"video",
-                "payload":{
-                    "url":trailer
-                        }
-                        }
-                }
+    #trailer=gettrailer(recevied_message)
+    #dict_trailer[user_details['first_name']] = trailer;
+
     message_object2 = {
         "attachment":{
-            "type":"image",
+            "type":"template",
                 "payload":{
-                    "url":name
+                    "template_type":"generic",
+                    "elements":[
+                        {
+                            "image_url":name,
+                            "buttons":[
+                                {
+                                    "type":"postback",
+                                    "title":"Start Chatting",
+                                    "payload":"USER_DEFINED_PAYLOAD"
+                                }
+                            ]
                         }
-                        }
+                    ]
                 }
-
-    response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+            }
+        }
+    '''if recevied_message == "trailer":
+        message_object = {
+            "attachment":{
+                "type":"video",
+                    "payload":{
+                        "url":dict_trailer[user_details['first_name']]
+                            }
+                            }
+                    }
+        response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)'''
         
-        #response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
-        #status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
+    response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
+    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
 '''def post_facebook_message(fbid,recevied_message):
