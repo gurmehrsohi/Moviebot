@@ -41,7 +41,7 @@ def getmoviedetails(string):
 
 def gettrailer(string):
     
-    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+    r=requests.get("http://www.rottentomatoes.com/search/?search="+string.lower())
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
     movie=all_movies1.find('li',{'class':'clearfix'})
