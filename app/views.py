@@ -17,6 +17,8 @@ mainurl_rotten="http://www.rottentomatoes.com"
 list_item=[]
 
 def getmoviedetails(string):
+    if len(list_item) == 1:
+        del list_item[0]
     r=requests.get("http://www.imdb.com/find?q="+string)
     soup =BeautifulSoup(r.text,"html.parser")
     section=soup.find('div',{'class':'findSection'})
@@ -38,11 +40,8 @@ def getmoviedetails(string):
     return url_poster
 
 def gettrailer(string):
-    try:
-        del list_item[0]
-    except:
-        pprint('s')
-    r=requests.get("https://www.rottentomatoes.com/search/?search="+string)
+    
+    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
     movie=all_movies1.find('li',{'class':'clearfix'})
@@ -64,7 +63,7 @@ num="123456789"
 def new_movie(fbid,recevied_message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message)
-    trailer=gettrailer(recevied_message)
+    '''trailer=gettrailer(recevied_message)
     message_object = {
         "attachment":{
             "type":"video",
@@ -72,7 +71,7 @@ def new_movie(fbid,recevied_message):
                     "url":trailer
                         }
                         }
-                }
+                }'''
     message_object2 = {
         "attachment":{
             "type":"image",
@@ -82,13 +81,13 @@ def new_movie(fbid,recevied_message):
                         }
             }
 
-    response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+   ''' response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+    status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)'''
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message2)
     pprint(status.json())
 
-def post_facebook_message(fbid,recevied_message):
+'''def post_facebook_message(fbid,recevied_message):
     if(recevied_message[0] in num):
         post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
         if list_item[0] == recevied_message:
@@ -103,7 +102,7 @@ def post_facebook_message(fbid,recevied_message):
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
     else:
         new_movie(fbid,recevied_message)
-
+'''
 
 
 
