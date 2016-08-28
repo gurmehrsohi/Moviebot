@@ -62,14 +62,14 @@ PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0
 num="123456789"
 dict_trailer={}
 def new_movie(fbid,recevied_message):
-    '''try:
+    try:
         user_details_url= "https://graph.facebook.com/v2.6/%s"%fbid
         user_details_params = {'fields':'first_name,last_name,profile_pic','access_token':PAGE_ACCESS_TOKEN}
         user_details = requests.get(user_details_url,user_details_params).json()
     except:
         pprint('s')
 
-'''
+
 
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message,user_details['first_name'])
