@@ -58,7 +58,7 @@ def gettrailer(string):
 
 
 
-PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAK2hMzffZA67Urv4AUAPJxWhECQI9fUexZBTIg5ximqIxro3Sb2vsZCY0vmdRYLRZBcpyGYZA7497QZAAP2MA9wgbqTfyvZAXgfrdq25sx8ZBroWuAnpdd7P6gVunopO8SSYjE0ZBfZA9AuZCAlAEfGJIttS0KYbyEIYgZDZD'
+PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAAGBkdFAipzZC6dKSkTWDnUvXImclgl37Mk7eKFMt7sM2zpYtUbm247OGfHIbiIflX5LGUUvwtYr5ahMdgZALAZA9M4ZCGdJVkxv3R3Y7selvkzlvZBwnMSJI6LLOR9LtWX3Nxy4CuG0PiQZALuSMzkzppxZCo97wZDZD'
 
 num="123456789"
 def new_movie(fbid,recevied_message):
@@ -81,7 +81,7 @@ def new_movie(fbid,recevied_message):
                         }
                         }
             }
-                    # guess="Guess the rating out of 10"
+
     response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
