@@ -82,7 +82,6 @@ def new_movie(fbid,recevied_message):
                 }
 
     response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-    trailer=""
     status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         
         #response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
@@ -128,8 +127,10 @@ class findmovie(generic.View):
                     pprint(message)
                     try:
                         new_movie(message['sender']['id'],message['message']['text'])
+                        break
                     except:
                         return HttpResponse("sorry")
+            break
         return HttpResponse()
 
 
