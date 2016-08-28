@@ -98,7 +98,7 @@ def new_movie(fbid,recevied_message):
                 }
             }
         }
-    if recevied_message == "trailer":
+    if recevied_message == "Trailer":
         message_object = {
             "attachment":{
                 "type":"video",
