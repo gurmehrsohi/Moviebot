@@ -13,7 +13,7 @@ import unicodedata
 from unidecode import unidecode
 from bs4 import BeautifulSoup
 mainurl="http://www.imdb.com"
-mainurl_rotten="http://www.rottentomatoes.com"
+mainurl_rotten="https://www.rottentomatoes.com"
 list_item=[]
 
 def getmoviedetails(string):
@@ -41,7 +41,7 @@ def getmoviedetails(string):
 
 def gettrailer(string):
     
-    r=requests.get("http://www.rottentomatoes.com/search/?search="+string.lower())
+    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
     movie=all_movies1.find('li',{'class':'clearfix'})
