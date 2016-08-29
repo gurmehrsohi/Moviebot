@@ -71,8 +71,16 @@ def movie_rotten(string,user_name):
 
 
 def gettrailer(string):
+    r=requests.get("https://www.google.co.in/#q="+string.lower()+" trailer")
+    soup =BeautifulSoup(r.text,"html.parser")
+    movies=soup.find('div',{'class':'_ELb'})
+    movie=movies.find('a').get('href')
+    return unidecode(movie)
     
-    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+    
+    
+    
+    '''r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
     movie=all_movies1.find('li',{'class':'clearfix'})
@@ -87,7 +95,7 @@ def gettrailer(string):
         video_link=unidecode(video_link_ran)
         return video_link
     except:
-        return "sorry"
+        return "sorry" '''
 
 PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0nEumBqgDnACTKDsogyqGsybqCW0R9zAaWytWabYAMc0QVNeVyJZBTX16217N4f8Yhin0tSydtBRR4I8U8TPG1P38ZAoDCR5cy1LQq8tH82bZCLwZDZD'
 
