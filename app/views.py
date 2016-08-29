@@ -164,7 +164,7 @@ def render_postback(fbid,payload):
             "attachment":{
                 "type":"video",
                     "payload":{
-                        "url":dict_trailer[fbid]
+                        "url":"blob:https://www.youtube.com/82fbc3a0-a3e6-4d13-9f9e-b0feb7622420"
                             }
                         }
                 }
