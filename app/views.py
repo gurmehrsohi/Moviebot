@@ -18,16 +18,21 @@ Rating_movies={}
 movie_summary={}
 movies_name={}
 def getmoviedetails(string,user_name):
-    r=requests.get("http://www.imdb.com/find?q="+string)
-    soup =BeautifulSoup(r.text,"html.parser")
-    section=soup.find('div',{'class':'findSection'})
-    big_list=section.find('table',{'class':'findList'})
-    list=big_list.find_all('tr')
-    name_movie_uni=list[0].text
-    name_movie=unidecode(name_movie_uni)
-    movies_name[user_name]=name_movie
-    cururl=mainurl+list[0].find('a').get('href')
-    
+    try:
+        r=requests.get("http://www.imdb.com/find?q="+string)
+        soup =BeautifulSoup(r.text,"html.parser")
+        section=soup.find('div',{'class':'findSection'})
+        big_list=section.find('table',{'class':'findList'})
+        list=big_list.find_all('tr')
+        name_movie_uni=list[0].text
+        name_movie=unidecode(name_movie_uni)
+        movies_name[user_name]=name_movie
+        cururl=mainurl+list[0].find('a').get('href')
+        return func_movie(cururl,user_name)
+    except:
+        return movie_rotten(string,user_name)
+
+def func_movie(cururl,user_name):
     r1=requests.get(cururl)
     soup =BeautifulSoup(r1.text,"html.parser")
     Summary1 = soup.find('div',{'class':'summary_text'})
@@ -46,6 +51,24 @@ def getmoviedetails(string,user_name):
     
     #i=unicodedata.normalize('NFKD', poster_image).encode('ascii','ignore')
     return url_poster
+
+def movie_rotten(string,user_name):
+    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+    soup =BeautifulSoup(r.text,"html.parser")
+    all_movies1=soup.find('section',{'id':'SummaryResults'})
+    movie=all_movies1.find('li',{'class':'clearfix'})
+    link=movie.find('a',{'class':'articleLink'}).get('href')
+    act_link=unidecode(link)
+    rotten_url=mainurl_rotten+act_link
+    r1=requests.get(rotten_url)
+    soup =BeautifulSoup(r1.text,"html.parser")
+    bigpart=soup.find('div',{'id':'mainColumn'})
+    movies_name[user_name]=soup.find('h1',{'id':'movie-title'}).text
+    movie_summary[user_name]=soup.find('div',{'id':'movieSynopsis'}).text
+    Rating_movies[user_name]=soup.find('span',{'class':'meter-value'}).text
+    poster_link=bigpart.find('img',{'class':'posterImage'}).get('src')
+    return unidecode(poster_link)
+
 
 def gettrailer(string):
     
@@ -94,12 +117,12 @@ def new_movie(fbid,recevied_message):
                             "buttons":[
                                 {
                                     "type":"postback",
-                                    "title":"Rating",
+                                    "title":"IMDB Rating",
                                     "payload":"RATING",
                                 },
                                 {
                                     "type":"postback",
-                                    "title":"Trailer",
+                                    "title":"Trailer(Might take time to load)",
                                     "payload":"TRAILER",
                                 }
                             ]
@@ -108,17 +131,7 @@ def new_movie(fbid,recevied_message):
                 }
             }
         }
-    if recevied_message == "Trailer":
-        message_object = {
-            "attachment":{
-                "type":"video",
-                    "payload":{
-                        "url":trailer
-                            }
-                            }
-                    }
-        response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+    
     
         
     response_message2 = json.dumps({"recipient":{"id":fbid},"message":message_object2})
