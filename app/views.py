@@ -71,11 +71,14 @@ def movie_rotten(string,user_name):
 
 
 def gettrailer(string):
-    r=requests.get("https://www.google.co.in/#q="+string.lower()+" trailer")
+    r=requests.get("https://www.youtube.com/results?search_query="+string.lower()+"+trailer")
     soup =BeautifulSoup(r.text,"html.parser")
-    movies=soup.find('div',{'class':'_ELb'})
-    movie=movies.find('a').get('href')
-    return unidecode(movie)
+    movies=soup.find('ol',{'class':'item-section'})
+    
+    movies2=movies.find('li')
+    movie=movies2.find('a').get('href')
+    url="https://www.youtube.com"+unidecode(movie)
+    return unidecode(url)
     
     
     
