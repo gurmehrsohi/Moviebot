@@ -83,11 +83,10 @@ def gettrailer(string):
         soup =BeautifulSoup(r1.text,"html.parser")
         video=soup.find('div',{'class':'movie'})
         video_link_ran=video.find('a').get('data-mp4-url')
-        #video_link_ran=soup.find('a',{'class':'trailer_play_action_button').get('data-mp4-url')
         video_link=unidecode(video_link_ran)
         return video_link
     except:
-        return "sorry"
+        return 'sorry'
 
 PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0nEumBqgDnACTKDsogyqGsybqCW0R9zAaWytWabYAMc0QVNeVyJZBTX16217N4f8Yhin0tSydtBRR4I8U8TPG1P38ZAoDCR5cy1LQq8tH82bZCLwZDZD'
 
@@ -149,20 +148,24 @@ def render_postback(fbid,payload):
         except:
             pprint('error')
     if payload == 'TRAILER':
-        try:
-            message_object = {
-                "attachment":{
-                    "type":"video",
-                        "payload":{
-                            "url":dict_trailer[fbid]
+        if dict_trailer[fbid] == 'sorry':
+            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"sorry"}})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+        else:
+            try:
+                message_object = {
+                    "attachment":{
+                        "type":"video",
+                            "payload":{
+                                "url":dict_trailer[fbid]
+                                    }
                                 }
-                            }
-                    }
-            response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-        except:
-            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"not there"}})
-            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+                        }
+                response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+                status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+            except:
+                response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"not there"}})
+                status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
 
 '''def post_facebook_message(fbid,recevied_message):
     if(recevied_message[0] in num):
