@@ -122,7 +122,7 @@ def new_movie(fbid,recevied_message):
                                 },
                                 {
                                     "type":"postback",
-                                    "title":"Trailer(Might take time to load)",
+                                    "title":"Trailer",
                                     "payload":"TRAILER",
                                 }
                             ]
