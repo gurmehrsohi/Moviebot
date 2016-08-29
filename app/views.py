@@ -71,17 +71,18 @@ def movie_rotten(string,user_name):
 
 
 def gettrailer(string):
+    
+    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+    soup =BeautifulSoup(r.text,"html.parser")
+    all_movies1=soup.find('section',{'id':'SummaryResults'})
+    movie=all_movies1.find('li',{'class':'clearfix'})
+    link=movie.find('a',{'class':'articleLink'}).get('href')
+    act_link=unidecode(link)
+    rotten_url=mainurl_rotten+act_link
+    r1=requests.get(rotten_url)
+    soup =BeautifulSoup(r1.text,"html.parser")
+    video=soup.find('div',{'class':'movie'})
     try:
-        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
-        soup =BeautifulSoup(r.text,"html.parser")
-        all_movies1=soup.find('section',{'id':'SummaryResults'})
-        movie=all_movies1.find('li',{'class':'clearfix'})
-        link=movie.find('a',{'class':'articleLink'}).get('href')
-        act_link=unidecode(link)
-        rotten_url=mainurl_rotten+act_link
-        r1=requests.get(rotten_url)
-        soup =BeautifulSoup(r1.text,"html.parser")
-        video=soup.find('div',{'class':'movie'})
         video_link_ran=video.find('a').get('data-mp4-url')
         video_link=unidecode(video_link_ran)
         return video_link
