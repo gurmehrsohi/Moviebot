@@ -83,7 +83,7 @@ def gettrailer(string):
         soup =BeautifulSoup(r1.text,"html.parser")
         video=soup.find('div',{'class':'movie'})
         #video_link_ran=video.find('a').get('data-mp4-url')
-        video_link_ran=soup.find('a').get('trailer_play_action_button')
+        video_link_ran=soup.find('a',{'class':'trailer_play_action_button').get('data-mp4-url')
         video_link=unidecode(video_link_ran)
         return video_link
     except:
