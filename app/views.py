@@ -157,24 +157,20 @@ def render_postback(fbid,payload):
         except:
             pprint('error')
     if payload == 'TRAILER':
-        if dict_trailer[fbid]=="sorry":
-            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text","Sorry no trailer found"}})
-            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-        else:
-            message_object = {
-                "attachment":{
-                    "type":"video",
-                        "payload":{
-                            "url":dict_trailer[fbid]
-                                }
+        message_object = {
+            "attachment":{
+                "type":"video",
+                    "payload":{
+                        "url":dict_trailer[fbid]
                             }
-                    }
+                        }
+                }
 
-            try:
-                response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
-                status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
-            except:
-                pprint('error')
+        try:
+            response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
+        except:
+            pprint('error')
 '''def post_facebook_message(fbid,recevied_message):
     if(recevied_message[0] in num):
         post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
