@@ -93,14 +93,14 @@ def gettrailer(string):
     r1=requests.get(rotten_url)
     soup =BeautifulSoup(r1.text,"html.parser")
     video=soup.find('div',{'class':'movie'})
-    '''try:
-        video_link_ran=video.find('a').get('data-mp4-url')
-        video_link=unidecode(video_link_ran)
-        return video_link'''
-    
-    video_link_ran=soup.find('a',{'class':'trailer_play_action_button'})
+    #try:
+    video_link_ran=video.find('a').get('data-mp4-url')
     video_link=unidecode(video_link_ran)
     return video_link
+    
+    #video_link_ran=soup.find('a',{'class':'trailer_play_action_button'})
+    #video_link=unidecode(video_link_ran)
+    #return video_link
 
 PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0nEumBqgDnACTKDsogyqGsybqCW0R9zAaWytWabYAMc0QVNeVyJZBTX16217N4f8Yhin0tSydtBRR4I8U8TPG1P38ZAoDCR5cy1LQq8tH82bZCLwZDZD'
 
