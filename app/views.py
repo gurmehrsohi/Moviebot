@@ -148,8 +148,8 @@ def render_postback(fbid,payload):
         except:
             pprint('error')
     if payload == 'TRAILER':
-        if dict_trailer[fbid] != 'sorry':
-            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":dict_trailer[fbid]}})
+        if dict_trailer[fbid] == 'sorry':
+            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"sorry"}})
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         else:
             try:
