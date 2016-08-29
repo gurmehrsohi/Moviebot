@@ -69,16 +69,6 @@ def movie_rotten(string,user_name):
     poster_link=bigpart.find('img',{'class':'posterImage'}).get('src')
     return unidecode(poster_link)
 
-
-def gettrailer2(string):
-    r=requests.get("https://www.youtube.com/results?search_query="+string.lower()+"+trailer")
-    soup =BeautifulSoup(r.text,"html.parser")
-    movies=soup.find('ol',{'class':'item-section'})
-    
-    movies2=movies.find('li')
-    movie=movies2.find('a').get('href')
-    url="https://www.youtube.com"+unidecode(movie)
-    return unidecode(url)
     
     
     
@@ -176,22 +166,7 @@ def render_postback(fbid,payload):
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         except:
             pprint('error')
-'''def post_facebook_message(fbid,recevied_message):
-    if(recevied_message[0] in num):
-        post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-        if list_item[0] == recevied_message:
-            del list_item[0]
-            response_message3 = json.dumps({"recipient":{"id":fbid},"message":{"text":"WOW!!! U R DAMN RIGHT."}})
-            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
-        elif list_item[0][0] == recevied_message[0]:
-            response_message3 = json.dumps({"recipient":{"id":fbid},"message":{"text":"Oh!!! that was quite close."}})
-            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
-        else:
-            response_message3 = json.dumps({"recipient":{"id":fbid},"message":{"text":"Oh!!! that not the right answer."}})
-            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
-    else:
-        new_movie(fbid,recevied_message)
-'''
+
 
 
 
