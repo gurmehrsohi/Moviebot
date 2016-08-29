@@ -119,14 +119,9 @@ def new_movie(fbid,recevied_message):
                             "buttons":[
                                 {
                                     "type":"postback",
-                                    "title":"IMDB Rating",
-                                    "payload":"RATING",
+                                    "title":"Details",
+                                    "payload":"DETAILS",
                                 },
-                                {
-                                    "type":"postback",
-                                    "title":"Trailer",
-                                    "payload":"TRAILER",
-                                }
                             ]
                         }
                     ]
@@ -142,16 +137,45 @@ def new_movie(fbid,recevied_message):
 
 def render_postback(fbid,payload):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-    if payload == 'RATING':
-        text=Rating_movies[fbid]
+    if payload == 'DETAILS':
+        message_object2 = {
+            "attachment":{
+                "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements":[
+                            {
+                                "title":movies_name[fbid],
+                                "subtitle":movie_summary[fbid],
+                                "buttons":[
+                                    {
+                                           "type":"postback",
+                                           "title":"Rating IMDB",
+                                           "payload":"RATING",
+                                    },
+                                    {
+                                           "type":"postback",
+                                           "title":"Trailer",
+                                           "payload":"TRAILER",
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+
         try:
-            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":text}})
+            response_message = json.dumps({"recipient":{"id":fbid},"message":message_object2})
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         except:
             pprint('error')
+    if payload == 'RATING':
+        response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":Rating_movies[fbid]}})
+        status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
     if payload == 'TRAILER':
         if dict_trailer[fbid] == 'sorry':
-            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"sorry"}})
+            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"Hey,Sorry try new movies"}})
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         else:
             try:
