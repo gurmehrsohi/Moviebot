@@ -69,28 +69,24 @@ def movie_rotten(string,user_name):
     poster_link=bigpart.find('img',{'class':'posterImage'}).get('src')
     return unidecode(poster_link)
 
-    
-    
-    
+
 def gettrailer(string):
-    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
-    soup =BeautifulSoup(r.text,"html.parser")
-    all_movies1=soup.find('section',{'id':'SummaryResults'})
-    movie=all_movies1.find('li',{'class':'clearfix'})
-    link=movie.find('a',{'class':'articleLink'}).get('href')
-    act_link=unidecode(link)
-    rotten_url=mainurl_rotten+act_link
-    r1=requests.get(rotten_url)
-    soup =BeautifulSoup(r1.text,"html.parser")
-    video=soup.find('div',{'class':'movie'})
-    #try:
-    video_link_ran=video.find('a').get('data-mp4-url')
-    video_link=unidecode(video_link_ran)
-    return video_link
-    
-    #video_link_ran=soup.find('a',{'class':'trailer_play_action_button'})
-    #video_link=unidecode(video_link_ran)
-    #return video_link
+    try:
+        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+        soup =BeautifulSoup(r.text,"html.parser")
+        all_movies1=soup.find('section',{'id':'SummaryResults'})
+        movie=all_movies1.find('li',{'class':'clearfix'})
+        link=movie.find('a',{'class':'articleLink'}).get('href')
+        act_link=unidecode(link)
+        rotten_url=mainurl_rotten+act_link
+        r1=requests.get(rotten_url)
+        soup =BeautifulSoup(r1.text,"html.parser")
+        video=soup.find('div',{'class':'movie'})
+        video_link_ran=video.find('a').get('data-mp4-url')
+        video_link=unidecode(video_link_ran)
+        return video_link
+    except:
+        return "sorry"
 
 PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0nEumBqgDnACTKDsogyqGsybqCW0R9zAaWytWabYAMc0QVNeVyJZBTX16217N4f8Yhin0tSydtBRR4I8U8TPG1P38ZAoDCR5cy1LQq8tH82bZCLwZDZD'
 
@@ -126,7 +122,7 @@ def new_movie(fbid,recevied_message):
                                 },
                                 {
                                     "type":"postback",
-                                    "title":"Trailer",
+                                    "title":"Trailer(Might take time to load)",
                                     "payload":"TRAILER",
                                 }
                             ]
@@ -152,21 +148,37 @@ def render_postback(fbid,payload):
         except:
             pprint('error')
     if payload == 'TRAILER':
-        message_object = {
-            "attachment":{
-                "type":"video",
-                    "payload":{
-                        "url":dict_trailer[fbid]
-                            }
-                        }
-                }
-
         try:
+            message_object = {
+                "attachment":{
+                    "type":"video",
+                        "payload":{
+                            "url":dict_trailer[fbid]
+                                }
+                            }
+                    }
             response_message = json.dumps({"recipient":{"id":fbid},"message":message_object})
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         except:
-            pprint('error')
+            response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"not there"}})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
 
+'''def post_facebook_message(fbid,recevied_message):
+    if(recevied_message[0] in num):
+        post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
+        if list_item[0] == recevied_message:
+            del list_item[0]
+            response_message3 = json.dumps({"recipient":{"id":fbid},"message":{"text":"WOW!!! U R DAMN RIGHT."}})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
+        elif list_item[0][0] == recevied_message[0]:
+            response_message3 = json.dumps({"recipient":{"id":fbid},"message":{"text":"Oh!!! that was quite close."}})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
+        else:
+            response_message3 = json.dumps({"recipient":{"id":fbid},"message":{"text":"Oh!!! that not the right answer."}})
+            status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message3)
+    else:
+        new_movie(fbid,recevied_message)
+'''
 
 
 
