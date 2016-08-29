@@ -164,7 +164,7 @@ def render_postback(fbid,payload):
             "attachment":{
                 "type":"video",
                     "payload":{
-                        "url":"blob:https://www.youtube.com/82fbc3a0-a3e6-4d13-9f9e-b0feb7622420"
+                        "url":"https://video.internetvideoarchive.net/video.mp4?fmt=4&cmd=6&publishedid=643072&customerid=300120&e=1472601600&sub=RTO&videokbrate=750&h=aeec8f1eba66d360911c850b003661f8"
                             }
                         }
                 }
