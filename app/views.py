@@ -70,7 +70,7 @@ def movie_rotten(string,user_name):
     return unidecode(poster_link)
 
 
-def gettrailer(string):
+def gettrailer2(string):
     r=requests.get("https://www.youtube.com/results?search_query="+string.lower()+"+trailer")
     soup =BeautifulSoup(r.text,"html.parser")
     movies=soup.find('ol',{'class':'item-section'})
@@ -82,8 +82,8 @@ def gettrailer(string):
     
     
     
-    
-    '''r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+def gettrailer(string):
+    r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
     soup =BeautifulSoup(r.text,"html.parser")
     all_movies1=soup.find('section',{'id':'SummaryResults'})
     movie=all_movies1.find('li',{'class':'clearfix'})
@@ -93,12 +93,14 @@ def gettrailer(string):
     r1=requests.get(rotten_url)
     soup =BeautifulSoup(r1.text,"html.parser")
     video=soup.find('div',{'class':'movie'})
-    try:
+    '''try:
         video_link_ran=video.find('a').get('data-mp4-url')
         video_link=unidecode(video_link_ran)
-        return video_link
-    except:
-        return "sorry" '''
+        return video_link'''
+    
+    video_link_ran=soup.find('a',{'class':'trailer_play_action_button'})
+    video_link=unidecode(video_link_ran)
+    return video_link
 
 PAGE_ACCESS_TOKEN ='EAAHDBPLJRvABAPSuvIruaqscc9s64L0yZBBIAdlszx60wlz1OQy3Qle6rF0nEumBqgDnACTKDsogyqGsybqCW0R9zAaWytWabYAMc0QVNeVyJZBTX16217N4f8Yhin0tSydtBRR4I8U8TPG1P38ZAoDCR5cy1LQq8tH82bZCLwZDZD'
 
@@ -164,7 +166,7 @@ def render_postback(fbid,payload):
             "attachment":{
                 "type":"video",
                     "payload":{
-                        "url":"https://video.internetvideoarchive.net/video.mp4?fmt=4&cmd=6&publishedid=643072&customerid=300120&e=1472601600&sub=RTO&videokbrate=750&h=aeec8f1eba66d360911c850b003661f8"
+                        "url":dict_trailer[fbid]
                             }
                         }
                 }
