@@ -72,9 +72,9 @@ def movie_rotten(string,user_name):
     return unidecode(poster_link)
 
 
-def gettrailer(string):
+def gettrailer(string,user_name):
     try:
-        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower()+"+"+movie_year[user_name])
+        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower()+"%20"+movie_year[user_name])
         soup =BeautifulSoup(r.text,"html.parser")
         all_movies1=soup.find('section',{'id':'SummaryResults'})
         movie=all_movies1.find('li',{'class':'clearfix'})
@@ -102,7 +102,7 @@ def new_movie(fbid,recevied_message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message,fbid)
   
-    trailer=gettrailer(recevied_message+)
+    trailer=gettrailer(recevied_message,fbid)
     
     dict_trailer[fbid]=trailer
 
