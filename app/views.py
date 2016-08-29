@@ -17,6 +17,7 @@ mainurl_rotten="https://www.rottentomatoes.com"
 Rating_movies={}
 movie_summary={}
 movies_name={}
+movie_year={}
 def getmoviedetails(string,user_name):
     try:
         r=requests.get("http://www.imdb.com/find?q="+string)
@@ -35,6 +36,7 @@ def getmoviedetails(string,user_name):
 def func_movie(cururl,user_name):
     r1=requests.get(cururl)
     soup =BeautifulSoup(r1.text,"html.parser")
+    movie_year[user_name]=soup.find('span',{'id':'titleYear'}).text
     Summary1 = soup.find('div',{'class':'summary_text'})
     Summary2=Summary1.text
     Summary3=Summary2.replace("\n","")
@@ -72,7 +74,7 @@ def movie_rotten(string,user_name):
 
 def gettrailer(string):
     try:
-        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower())
+        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower()+"+"+movie_year[user_name])
         soup =BeautifulSoup(r.text,"html.parser")
         all_movies1=soup.find('section',{'id':'SummaryResults'})
         movie=all_movies1.find('li',{'class':'clearfix'})
@@ -100,7 +102,7 @@ def new_movie(fbid,recevied_message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     name=getmoviedetails(recevied_message,fbid)
   
-    trailer=gettrailer(recevied_message)
+    trailer=gettrailer(recevied_message+)
     
     dict_trailer[fbid]=trailer
 
