@@ -124,7 +124,7 @@ def new_movie(fbid,recevied_message):
                                 },
                                 {
                                     "type":"postback",
-                                    "title":"Trailer(Might take time to load)",
+                                    "title":"Trailer",
                                     "payload":"TRAILER",
                                 }
                             ]
@@ -155,6 +155,8 @@ def render_postback(fbid,payload):
             status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
         else:
             try:
+                response_message = json.dumps({"recipient":{"id":fbid},"message":{"text":"Trailer is on its way..."}})
+                status = requests.post(post_message_url,headers={"Content-Type": "application/json"},data=response_message)
                 message_object = {
                     "attachment":{
                         "type":"video",
