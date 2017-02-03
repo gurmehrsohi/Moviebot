@@ -74,18 +74,21 @@ def movie_rotten(string,user_name):
 
 def gettrailer(string,user_name):
     try:
-        r=requests.get("https://www.rottentomatoes.com/search/?search="+string.lower()+"%20"+movie_year[user_name])
+        r=requests.get("http://www.imdb.com/find?q="+string.lower()+"%20"+movie_year[user_name])
         soup =BeautifulSoup(r.text,"html.parser")
-        all_movies1=soup.find('section',{'id':'SummaryResults'})
-        movie=all_movies1.find('li',{'class':'clearfix'})
-        link=movie.find('a',{'class':'articleLink'}).get('href')
-        act_link=unidecode(link)
-        rotten_url=mainurl_rotten+act_link
-        r1=requests.get(rotten_url)
+        section=soup.find('div',{'class':'findSection'})
+        big_list=section.find('table',{'class':'findList'})
+        list=big_list.find_all('tr')
+        name_movie_uni=list[0].text
+        name_movie=unidecode(name_movie_uni)
+        movies_name[user_name]=name_movie
+        cururl=mainurl+list[0].find('a').get('href')
+        r1=requests.get(cururl)
         soup =BeautifulSoup(r1.text,"html.parser")
-        video=soup.find('div',{'class':'movie'})
-        video_link_ran=video.find('a').get('data-mp4-url')
-        video_link=unidecode(video_link_ran)
+        video=soup.find('div',{'class':'slate'})
+        video_link_ran=video.find('a').get('href')
+        video_link_ran1="http://www.imdb.com"+video_link_ran
+        video_link=unidecode(video_link_ran1)
         return video_link
     except:
         return 'sorry'
