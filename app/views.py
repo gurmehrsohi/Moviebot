@@ -88,7 +88,7 @@ def gettrailer(string,user_name):
         video=soup.find('div',{'class':'slate'})
         video_link_ran=video.find('a').get('href')
         video_link_ran1="http://www.imdb.com"+video_link_ran
-        video_link=unidecode(video_link_ran1)
+        #video_link=unidecode(video_link_ran1)
         return video_link
     except:
         return 'sorry'
