@@ -83,13 +83,17 @@ def gettrailer(string,user_name):
         name_movie=unidecode(name_movie_uni)
         movies_name[user_name]=name_movie
         cururl=mainurl+list[0].find('a').get('href')
-        r1=requests.get(cururl)
-        soup =BeautifulSoup(r1.text,"html.parser")
+        r=requests.get(cururl)
+        soup =BeautifulSoup(r.text,"html.parser")
         video=soup.find('div',{'class':'slate'})
         video_link_ran=video.find('a').get('href')
         video_link_ran1="http://www.imdb.com"+video_link_ran
-        #video_link=unidecode(video_link_ran1)
-        return video_link_ran1
+        video_link=unidecode(video_link_ran1)
+        r=requests.get(video_link)
+        soup =BeautifulSoup(r.text,"html.parser")
+        link=soup.find('iframe',{'id':'video-player-container'})
+        final_link=unidecode(link)
+        return final_link
     except:
         return 'sorry'
 
