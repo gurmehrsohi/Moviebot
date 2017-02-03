@@ -89,7 +89,7 @@ def gettrailer(string,user_name):
         video_link_ran=video.find('a').get('href')
         video_link_ran1="http://www.imdb.com"+video_link_ran
         #video_link=unidecode(video_link_ran1)
-        return video_link
+        return video_link_ran1
     except:
         return 'sorry'
 
