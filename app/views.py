@@ -88,11 +88,11 @@ def gettrailer(string,user_name):
         video=soup.find('div',{'class':'slate'})
         video_link_ran=video.find('a').get('href')
         video_link_ran1="http://www.imdb.com"+video_link_ran
-        #video_link=unidecode(video_link_ran1)
-        r=requests.get(video_link_ran1)
+        video_link=unidecode(video_link_ran1)
+        r=requests.get(video_link)
         soup =BeautifulSoup(r.text,"html.parser")
         link=soup.find('iframe',{'id':'video-player-container'})
-        final_link=link['src']
+        final_link=unidecode(link['src'])
         return final_link
     except:
         return 'sorry'
